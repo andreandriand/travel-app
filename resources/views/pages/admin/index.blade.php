@@ -1,4 +1,4 @@
-@extends('layouts.admin.main')
+@extends('layouts.admin')
 
 @section('title', 'Dashboard')
 
@@ -523,3 +523,24 @@
         </div>
     </section>
 @endsection
+
+@push('addon-style')
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/modules/jqvmap/dist/jqvmap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/admin/modules/summernote/summernote-bs4.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/admin/modules/owlcarousel2/dist/assets/owl.carousel.min.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/admin/modules/owlcarousel2/dist/assets/owl.theme.default.min.css') }}" />
+@endpush
+
+@push('addon-script')
+    <!-- JS Libraies -->
+    <script src="{{ asset('assets/admin/modules/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/modules/chart.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/modules/summernote/summernote-bs4.js') }}"></script>
+    <script src="{{ asset('assets/admin/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('assets/admin/js/page/index.js') }}"></script>
+@endpush
