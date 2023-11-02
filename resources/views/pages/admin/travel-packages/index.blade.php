@@ -10,13 +10,19 @@
                 <div class="breadcrumb-item active">LaraVel</div>
             </div>
         </div>
-
         <div class="section-body">
-            <a href="{{ route('travel-package.create') }}" class="btn btn-primary float-right">Add New Package</a>
-            <h2 class="section-title">List Travel Packages</h2>
-            <p class="section-lead">
-                Here is our list of travel packages.
-            </p>
+            <div class="row mb-4">
+                <div class="col-8">
+                    <h2 class="section-title">List Travel Packages</h2>
+                    <p class="section-lead">
+                        Here is our list of travel packages.
+                    </p>
+                </div>
+                <div class="col-4">
+                    <a href="{{ route('travel-package.create') }}" class="btn btn-primary float-right mt-5">Add New
+                        Package</a>
+                </div>
+            </div>
 
 
             <div class="row">

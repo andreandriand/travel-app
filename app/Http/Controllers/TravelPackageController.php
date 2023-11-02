@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\TravelPackage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Http\Requests\TravelPackageRequest;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class TravelPackageController extends Controller
 {
@@ -29,9 +33,17 @@ class TravelPackageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TravelPackageRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['slug'] = Str::slug($request->title);
+
+        TravelPackage::create($data);
+
+        Alert::toast()->success('Success!', 'Travel package has been created!')
+            ->position('top-end')->autoClose(3000);
+        return redirect()->route('travel-package.index');
     }
 
     /**
@@ -47,15 +59,25 @@ class TravelPackageController extends Controller
      */
     public function edit(TravelPackage $travelPackage)
     {
-        //
+        return view('pages.admin.travel-packages.edit', [
+            'package' => $travelPackage
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TravelPackage $travelPackage)
+    public function update(TravelPackageRequest $request, TravelPackage $travelPackage)
     {
-        //
+        $data = $request->validated();
+
+        $data['slug'] = Str::slug($request->title);
+
+        $travelPackage->update($data);
+
+        Alert::toast()->success('Success!', 'Travel package has been updated!')
+            ->position('top-end')->autoClose(3000);
+        return redirect()->route('travel-package.index');
     }
 
     /**
@@ -63,6 +85,7 @@ class TravelPackageController extends Controller
      */
     public function destroy(TravelPackage $travelPackage)
     {
-        //
+        $travelPackage->delete();
+        return redirect()->route('travel-package.index');
     }
 }

@@ -20,12 +20,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::get('/home', function () {
     return view('pages.frontend.index');
 });
 Route::get('/detail', function () {
