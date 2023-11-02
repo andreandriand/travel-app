@@ -15,6 +15,10 @@
                             <a class="nav-link" href="{{ route('travel-package.index') }}"><i class="fas fa-box"></i>
                                 <span>Travel Packages</span></a>
                         </li>
+                        <li>
+                            <a class="nav-link" href="{{ route('gallery.index') }}"><i class="fas fa-images"></i>
+                                <span>Gallery</span></a>
+                        </li>
 
                         <li class="menu-header">Starter</li>
                         <li class="dropdown">

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TravelPackageController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
 
     Route::resource('travel-package', TravelPackageController::class);
+    Route::resource('gallery', GalleryController::class);
 });
 
 Route::post('profile', [AuthController::class, 'VerifyEmail'])

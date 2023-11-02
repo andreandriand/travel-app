@@ -1,26 +1,26 @@
 @extends('layouts.admin')
 
-@section('title', 'Travel Packages')
+@section('title', 'Gallery')
 
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Travel Packages</h1>
+            <h1>Gallery</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active">LaraVel Travel Packages</div>
+                <div class="breadcrumb-item active">LaraVel Gallery</div>
             </div>
         </div>
         <div class="section-body">
             <div class="row mb-4">
                 <div class="col-8">
-                    <h2 class="section-title">List Travel Packages</h2>
+                    <h2 class="section-title">List Gallery Travel Packages</h2>
                     <p class="section-lead">
-                        Here is our list of travel packages.
+                        Here is our list of gallery travel packages.
                     </p>
                 </div>
                 <div class="col-4">
-                    <a href="{{ route('travel-package.create') }}" class="btn btn-primary float-right mt-5">Add New
-                        Package</a>
+                    <a href="{{ route('gallery.create') }}" class="btn btn-primary float-right mt-5">Add New
+                        Image</a>
                 </div>
             </div>
 
@@ -34,31 +34,29 @@
                                     <th class="text-center align-middle">
                                         No
                                     </th>
-                                    <th class="align-middle">Title</th>
-                                    <th class="align-middle">Location</th>
-                                    <th class="align-middle">Depature Date</th>
-                                    <th class="align-middle">Type</th>
-                                    <th class="align-middle">Price</th>
-                                    <th class="align-middle">Date Created</th>
+                                    <th class="align-middle">Travel Packages</th>
+                                    <th class="align-middle">Image</th>
+                                    <th class="align-middle">Last Update</th>
                                     <th class="align-middle">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($packages as $pack)
+                                @forelse ($galleries as $img)
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $loop->iteration }}
                                         </td>
-                                        <td>{{ $pack->title }}</td>
-                                        <td>{{ $pack->location }}</td>
-                                        <td>{{ date_format(date_create($pack->depature_date), 'd F Y') }}</td>
-                                        <td>{{ $pack->type }}</td>
-                                        <td>{{ 'Rp ' . number_format($pack->price, 0, ',', '.') ?? '' }}</td>
-                                        <td>{{ $pack->created_at }}</td>
-                                        <td><a href="{{ route('travel-package.edit', $pack->id) }}"
-                                                class="btn btn-success"><i class="fas fa-info-circle"></i></a>
-                                            <form action="{{ route('travel-package.destroy', $pack->id) }}" method="post"
-                                                class="d-inline ml-2" id="delete-travel-package">@csrf
+                                        <td>{{ $img->travel_package->title }}</td>
+                                        <td>
+                                            <img src="{{ Storage::url($img->image) }}"
+                                                alt="Image {{ $img->travel_package->title . $loop->iteration }}"
+                                                class="img-thumbnail" width="100">
+                                        </td>
+                                        <td>{{ $img->updated_at }}</td>
+                                        <td><a href="{{ route('gallery.edit', $img->id) }}" class="btn btn-success"><i
+                                                    class="fas fa-info-circle"></i></a>
+                                            <form action="{{ route('gallery.destroy', $img->id) }}" method="post"
+                                                class="d-inline ml-2" id="delete-gallery">@csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger"><i
                                                         class="fas fa-trash"></i></button>
@@ -106,7 +104,7 @@
     <script src="{{ asset('assets/admin/js/page/modules-sweetalert.js') }}"></script>
 
     <script>
-        document.querySelector('#delete-travel-package').addEventListener('submit', function(e) {
+        document.querySelector('#delete-gallery').addEventListener('submit', function(e) {
             var form = this;
 
             e.preventDefault(); // <--- prevent form from submitting
