@@ -19,6 +19,10 @@
                             <a class="nav-link" href="{{ route('gallery.index') }}"><i class="fas fa-images"></i>
                                 <span>Gallery</span></a>
                         </li>
+                        <li>
+                            <a class="nav-link" href="{{ route('transaction.index') }}"><i class="fas fa-wallet"></i>
+                                <span>Transaction</span></a>
+                        </li>
 
                         <li class="menu-header">Starter</li>
                         <li class="dropdown">

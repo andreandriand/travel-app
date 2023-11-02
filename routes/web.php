@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TravelPackageController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
     Route::resource('travel-package', TravelPackageController::class);
     Route::resource('gallery', GalleryController::class);
+    Route::resource('transaction', TransactionController::class);
 });
 
 Route::post('profile', [AuthController::class, 'VerifyEmail'])
