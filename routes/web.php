@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TravelPackageController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 /*
@@ -46,6 +47,8 @@ Route::post('/register', [AuthController::class, 'store'])->name('register.store
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
+
+    Route::resource('travel-package', TravelPackageController::class);
 });
 
 Route::post('profile', [AuthController::class, 'VerifyEmail'])
