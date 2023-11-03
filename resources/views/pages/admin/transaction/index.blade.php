@@ -120,13 +120,13 @@
                 if (isConfirm) {
                     swal({
                         title: 'Done!',
-                        text: 'Your data has been deleted!',
+                        text: 'Transaction has been deleted!',
                         icon: 'success'
                     }).then(function() {
                         form.submit(); // <--- submit form programmatically
                     });
                 } else {
-                    swal("Cancelled", "Your data is safe :)", "error");
+                    swal("Cancelled", "No action taken", "error");
                 }
             })
         });

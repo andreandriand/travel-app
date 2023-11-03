@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <nav class="row navbar navbar-expand-lg navbar-light bg-white">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/">
                 <img src="assets/frontend/images/logo.png" alt="" />
             </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
@@ -16,10 +16,10 @@
             <div class="collapse navbar-collapse" id="navb">
                 <ul class="navbar-nav ml-auto mr-3">
                     <li class="nav-item mx-md-2">
-                        <a class="nav-link active" href="index.html">Home</a>
+                        <a class="nav-link active" href="/">Home</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a class="nav-link" href="#">Paket Travel</a>
+                        <a class="nav-link" href="#">Travel Package</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -34,20 +34,45 @@
                     <li class="nav-item mx-md-2">
                         <a class="nav-link" href="#">Testimonial</a>
                     </li>
+
+                    @auth
+                        <li class="nav-item dropdown ml-lg-5">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Hi, {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu">
+                                @if (Auth::user()->email_verified_at == null)
+                                    <form action="{{ route('verification.send') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Verify Email</button>
+                                    </form>
+                                @endif
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt mt-2"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    @endauth
                 </ul>
 
-                <!-- Mobile button -->
-                <form class="form-inline d-sm-block d-md-none">
-                    <button class="btn btn-login my-2 my-sm-0">
-                        Masuk
-                    </button>
-                </form>
-                <!-- Desktop Button -->
-                <form class="form-inline my-2 my-lg-0 d-none d-md-block">
-                    <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4">
-                        Masuk
-                    </button>
-                </form>
+                @guest
+                    <!-- Mobile button -->
+                    <div class="form-inline d-sm-block d-md-none">
+                        <a href="{{ route('login') }}" class="btn btn-login my-2 my-sm-0">
+                            Login
+                        </a>
+                    </div>
+                    <!-- Desktop Button -->
+                    <div class="d-none d-md-block">
+                        <a href="{{ route('login') }}" class="btn btn-login my-2 my-sm-0 px-4">
+                            Login
+                        </a>
+                    </div>
+                @endguest
             </div>
         </nav>
     </div>
@@ -72,57 +97,38 @@
                 <div class="row">
                     <div class="col-lg-8 pl-lg-0">
                         <div class="card card-details">
-                            <h1>Nusa Peninda</h1>
+                            <h1>{{ $package->title }}</h1>
                             <p>
-                                Republic of Indonesia Raya
+                                {{ $package->location }}
                             </p>
                             <div class="gallery">
                                 <div class="xzoom-container">
-                                    <img class="xzoom" id="xzoom-default" src="assets/frontend/images/details-1.jpg"
-                                        xoriginal="assets/frontend/images/details-1.jpg" />
+                                    <img class="xzoom" id="xzoom-default"
+                                        src="{{ Storage::url($package->galleries->first()->image) }}"
+                                        xoriginal="{{ Storage::url($package->galleries->first()->image) }}" />
                                     <div class="xzoom-thumbs">
-                                        <a href="assets/frontend/images/details-1.jpg"><img class="xzoom-gallery"
-                                                width="128" src="assets/frontend/images/details-1.jpg"
-                                                xpreview="assets/frontend/images/details-1.jpg" /></a>
-                                        <a href="assets/frontend/images/details-1.jpg"><img class="xzoom-gallery"
-                                                width="128" src="assets/frontend/images/details-1.jpg"
-                                                xpreview="assets/frontend/images/details-1.jpg" /></a>
-                                        <a href="assets/frontend/images/details-1.jpg"><img class="xzoom-gallery"
-                                                width="128" src="assets/frontend/images/details-1.jpg"
-                                                xpreview="assets/frontend/images/details-1.jpg" /></a>
-                                        <a href="assets/frontend/images/details-1.jpg"><img class="xzoom-gallery"
-                                                width="128" src="assets/frontend/images/details-1.jpg"
-                                                xpreview="assets/frontend/images/details-1.jpg" /></a>
-                                        <a href="assets/frontend/images/details-1.jpg"><img class="xzoom-gallery"
-                                                width="128" src="assets/frontend/images/details-1.jpg"
-                                                xpreview="assets/frontend/images/details-1.jpg" /></a>
+                                        @foreach ($package->galleries as $img)
+                                            <a href="{{ Storage::url($img->image) }}"><img class="xzoom-gallery"
+                                                    width="128" src="{{ Storage::url($img->image) }}"
+                                                    xpreview="{{ Storage::url($img->image) }}" /></a>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <h2>Tentang Wisata</h2>
                                 <p>
-                                    Nusa Penida is an island southeast of Indonesia’s island
-                                    Bali and a district of Klungkung Regency that includes the
-                                    neighbouring small island of Nusa Lembongan. The Badung
-                                    Strait separates the island and Bali. The interior of Nusa
-                                    Penida is hilly with a maximum altitude of 524 metres. It is
-                                    drier than the nearby island of Bali.
-                                </p>
-                                <p>
-                                    Bali and a district of Klungkung Regency that includes the
-                                    neighbouring small island of Nusa Lembongan. The Badung
-                                    Strait separates the island and Bali.
+                                    {{ $package->about }}
                                 </p>
                                 <div class="features row pt-3">
                                     <div class="col-md-4">
-                                        <img src="assets/frontend/images/ic_event.png" alt=""
+                                        <img src="{{ asset('assets/frontend/images/ic_event.png') }}" alt=""
                                             class="features-image" />
                                         <div class="description">
                                             <h3>Featured Ticket</h3>
-                                            <p>Tari Kecak</p>
+                                            <p>{{ $package->featured_event }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4 border-left">
-                                        <img src="assets/frontend/images/ic_bahasa.png" alt=""
+                                        <img src="{{ asset('assets/frontend/images/ic_bahasa.png') }}" alt=""
                                             class="features-image" />
                                         <div class="description">
                                             <h3>Language</h3>
@@ -130,11 +136,11 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4 border-left">
-                                        <img src="assets/frontend/images/ic_foods.png" alt=""
+                                        <img src="{{ asset('assets/frontend/images/ic_foods.png') }}" alt=""
                                             class="features-image" />
                                         <div class="description">
                                             <h3>Foods</h3>
-                                            <p>Local Foods</p>
+                                            <p>{{ $package->foods }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -145,32 +151,47 @@
                         <div class="card card-details card-right">
                             <h2>Members are going</h2>
                             <div class="members my-2">
-                                <img src="assets/frontend/images/members.png" alt="" class="w-75" />
+                                <img src="{{ asset('assets/frontend/images/members.png') }}" alt=""
+                                    class="w-75" />
                             </div>
                             <hr />
                             <h2>Trip Informations</h2>
                             <table class="trip-informations">
                                 <tr>
                                     <th width="50%">Date of Departure</th>
-                                    <td width="50%" class="text-right">22 Aug, 2019</td>
+                                    <td width="50%" class="text-right">
+                                        {{ date_format(date_create($package->depature_date), 'd F Y') }}</td>
                                 </tr>
                                 <tr>
                                     <th width="50%">Duration</th>
-                                    <td width="50%" class="text-right">4D 3N</td>
+                                    <td width="50%" class="text-right">{{ $package->duration }}</td>
                                 </tr>
                                 <tr>
                                     <th width="50%">Type</th>
-                                    <td width="50%" class="text-right">Open Trip</td>
+                                    <td width="50%" class="text-right">{{ $package->type }}</td>
                                 </tr>
                                 <tr>
                                     <th width="50%">Price</th>
-                                    <td width="50%" class="text-right">$80,00 / person</td>
+                                    <td width="50%" class="text-right">
+                                        {{ number_format($package->price, 0, ',', '.') }} / pax</td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="join-container">
-                            <a href="/co" class="btn btn-block btn-join-now mt-3 py-2">Join Now</a>
-                        </div>
+                        @auth
+                            <div class="join-container">
+                                <form action="{{ route('checkout.process', $package->id) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-block btn-join-now mt-3 py-2">Join Now</button>
+                                </form>
+                            </div>
+                        @endauth
+
+                        @guest
+                            <div class="join-container">
+                                <a href="{{ route('login') }}" class="btn btn-block btn-join-now mt-3 py-2">Login or
+                                    Register to Join</a>
+                            </div>
+                        @endguest
                     </div>
                 </div>
             </div>

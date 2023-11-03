@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,7 +13,20 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.index');
+        $pending = Transaction::where('transaction_status', 'PENDING')->count();
+        $success = Transaction::where('transaction_status', 'SUCCESS')->count();
+        $cancel = Transaction::where('transaction_status', 'CANCEL')->count();
+        $transactions = Transaction::all()->count();
+        $users = User::all()->count();
+        $balance = Transaction::sum('transaction_total');
+        return view('pages.admin.index', [
+            'pending' => $pending,
+            'success' => $success,
+            'cancel' => $cancel,
+            'transactions' => $transactions,
+            'users' => $users,
+            'balance' => $balance
+        ]);
     }
 
     public function profile()

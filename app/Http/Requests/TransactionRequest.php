@@ -22,10 +22,6 @@ class TransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'travel_packages_id' => 'required|integer|exists:travel_packages,id',
-            'user_id' => 'required|integer|exists:users,id',
-            'additional_visa' => 'required|integer',
-            'transaction_total' => 'required|integer',
             'transaction_status' => 'required|string|in:IN_CART,PENDING,SUCCESS,CANCEL,FAILED'
         ];
     }

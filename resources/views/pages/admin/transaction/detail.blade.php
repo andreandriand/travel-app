@@ -71,7 +71,7 @@
                     </div>
                     @if ($transaction->transaction_status != 'SUCCESS')
                         <form action="{{ route('transaction.update', $transaction->id) }}" method="POST"
-                            class="d-inline ml-2">
+                            class="d-inline ml-2" id="approve-transaction">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="travel_package_id" value="{{ $transaction->travel_package_id }}">
@@ -121,7 +121,7 @@
     <script src="{{ asset('assets/admin/modules/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/page/modules-sweetalert.js') }}"></script>
 
-    {{-- <script>
+    <script>
         document.querySelector('#approve-transaction').addEventListener('submit', function(e) {
             var form = this;
 
@@ -210,5 +210,5 @@
                 }
             })
         });
-    </script> --}}
+    </script>
 @endpush

@@ -4,8 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TravelPackageController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -23,18 +25,24 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 
-Route::get('/', function () {
-    return view('pages.frontend.index');
-});
-Route::get('/detail', function () {
-    return view('pages.frontend.details');
-});
-Route::get('/co', function () {
-    return view('pages.frontend.checkout');
-});
+Route::get('detail/{slug}', [HomeController::class, 'show'])->name('home.detail');
+
+Route::get('checkout/{id}', [CheckoutController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('checkout.package');
+Route::post('checkout/{id}', [CheckoutController::class, 'store'])
+    ->middleware(['auth', 'verified'])->name('checkout.process');
+Route::post('checkout/create/{id}', [CheckoutController::class, 'create'])
+    ->middleware(['auth', 'verified'])->name('checkout.create');
+Route::get('checkout/remove/{detail_id}', [CheckoutController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])->name('checkout.remove');
+Route::get('checkout/confirm/{id}', [CheckoutController::class, 'show'])
+    ->middleware(['auth', 'verified'])->name('checkout.success');
+
 Route::get('/success', function () {
     return view('pages.frontend.success');
 });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');

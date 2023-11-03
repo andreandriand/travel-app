@@ -65,9 +65,9 @@ class TransactionController extends Controller
 
         $transaction->update($data);
 
-        Alert::toast()->success('Transaction updated successfully!', 'Success');
+        // Alert::toast()->success('Transaction updated successfully!', 'Success');
 
-        return redirect()->route('transaction.index');
+        return back();
     }
 
     /**
@@ -75,6 +75,8 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        $transaction->delete();
+
+        return redirect()->route('transaction.index');
     }
 }

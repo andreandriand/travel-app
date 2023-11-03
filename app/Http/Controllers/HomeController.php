@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TravelPackage;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,7 +12,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //
+        $packages = TravelPackage::with(['galleries'])->get()->take(4);
+        return view('pages.frontend.index', [
+            'packages' => $packages
+        ]);
     }
 
     /**
@@ -33,9 +37,13 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($slug)
     {
-        //
+        $package = TravelPackage::with(['galleries'])->where('slug', $slug)->firstOrFail();
+
+        return view('pages.frontend.details', [
+            'package' => $package
+        ]);
     }
 
     /**

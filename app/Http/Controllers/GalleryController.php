@@ -102,8 +102,6 @@ class GalleryController extends Controller
         Storage::disk('public')->delete($gallery->image);
         $gallery->delete();
 
-        Alert::toast()->success('Gallery has been deleted!', 'Success');
-
         return redirect()->route('gallery.index');
     }
 }

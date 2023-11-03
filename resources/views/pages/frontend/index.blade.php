@@ -6,7 +6,7 @@
 
     <div class="container">
         <nav class="row navbar navbar-expand-lg navbar-light bg-white">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="assets/frontend/images/logo.png" alt="" />
             </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
@@ -17,10 +17,10 @@
             <div class="collapse navbar-collapse" id="navb">
                 <ul class="navbar-nav ml-auto mr-3">
                     <li class="nav-item mx-md-2">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" href="/">Home</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a class="nav-link" href="#">Paket Travel</a>
+                        <a class="nav-link" href="#">Travel Package</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -35,20 +35,44 @@
                     <li class="nav-item mx-md-2">
                         <a class="nav-link" href="#">Testimonial</a>
                     </li>
+                    @auth
+                        <li class="nav-item dropdown ml-lg-5">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Hi, {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu">
+                                @if (Auth::user()->email_verified_at == null)
+                                    <form action="{{ route('verification.send') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Verify Email</button>
+                                    </form>
+                                @endif
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt mt-2"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    @endauth
                 </ul>
 
-                <!-- Mobile button -->
-                <form class="form-inline d-sm-block d-md-none">
-                    <button class="btn btn-login my-2 my-sm-0">
-                        Masuk
-                    </button>
-                </form>
-                <!-- Desktop Button -->
-                <form class="form-inline my-2 my-lg-0 d-none d-md-block">
-                    <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4">
-                        Masuk
-                    </button>
-                </form>
+                @guest
+                    <!-- Mobile button -->
+                    <div class="form-inline d-sm-block d-md-none">
+                        <a href="{{ route('login') }}" class="btn btn-login my-2 my-sm-0">
+                            Login
+                        </a>
+                    </div>
+                    <!-- Desktop Button -->
+                    <div class="d-none d-md-block">
+                        <a href="{{ route('login') }}" class="btn btn-login my-2 my-sm-0 px-4">
+                            Login
+                        </a>
+                    </div>
+                @endguest
             </div>
         </nav>
     </div>
@@ -63,7 +87,7 @@
             <br />
             moment you never see before
         </p>
-        <a href="#" class="btn btn-get-started px-4 mt-4">
+        <a href="#popular" class="btn btn-get-started px-4 mt-4">
             Get Started
         </a>
     </header>
@@ -92,7 +116,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col text-center section-popular-heading">
-                        <h2>Wisata Popular</h2>
+                        <h2>Popular Destination</h2>
                         <p>
                             Something that you never try
                             <br />
@@ -105,54 +129,20 @@
         <section class="section-popular-content" id="popularContent">
             <div class="container">
                 <div class="section-popular-travel row justify-content-center">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card-travel text-center d-flex flex-column"
-                            style="background-image: url('assets/frontend/images/travel-1.jpg');">
-                            <div class="travel-country">INDONESIA</div>
-                            <div class="travel-location">DERATAN, BALI</div>
-                            <div class="travel-button mt-auto">
-                                <a href="/detail" class="btn btn-travel-details px-4">
-                                    View Details
-                                </a>
+                    @foreach ($packages as $pack)
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card-travel text-center d-flex flex-column"
+                                style="background-image: url('{{ $pack->galleries->count() ? Storage::url($pack->galleries->first()->image) : '' }}');">
+                                <div class="travel-country">{{ $pack->location }}</div>
+                                <div class="travel-location">{{ $pack->title }}</div>
+                                <div class="travel-button mt-auto">
+                                    <a href="{{ route('home.detail', $pack->slug) }}" class="btn btn-travel-details px-4">
+                                        View Details
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card-travel text-center d-flex flex-column"
-                            style="background-image: url('assets/frontend/images/travel-2.jpg');">
-                            <div class="travel-country">INDONESIA</div>
-                            <div class="travel-location">BROMO, MALANG</div>
-                            <div class="travel-button mt-auto">
-                                <a href="/detail" class="btn btn-travel-details px-4">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card-travel text-center d-flex flex-column"
-                            style="background-image: url('assets/frontend/images/travel-3.jpg');">
-                            <div class="travel-country">INDONESIA</div>
-                            <div class="travel-location">NUSA PENIDA</div>
-                            <div class="travel-button mt-auto">
-                                <a href="/detail" class="btn btn-travel-details px-4">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card-travel text-center d-flex flex-column"
-                            style="background-image: url('assets/frontend/images/travel-4.jpg');">
-                            <div class="travel-country">INDONESIA</div>
-                            <div class="travel-location">DUBAI</div>
-                            <div class="travel-button mt-auto">
-                                <a href="/detail" class="btn btn-travel-details px-4">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -241,7 +231,7 @@
                         <a href="#" class="btn btn-need-help px-4 mt-4 mx-1">
                             I Need Help
                         </a>
-                        <a href="#" class="btn btn-get-started px-4 mt-4 mx-1">
+                        <a href="{{ route('register') }}" class="btn btn-get-started px-4 mt-4 mx-1">
                             Get Started
                         </a>
                     </div>

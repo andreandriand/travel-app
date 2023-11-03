@@ -29,8 +29,11 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            return redirect()->intended('dashboard');
+            if (Auth::user()->role == 'admin') {
+                return redirect()->intended('dashboard');
+            } else {
+                return redirect()->intended('/');
+            }
         }
 
         return back()->withErrors([
@@ -63,6 +66,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('login');
+        return redirect()->route('home');
     }
 }
