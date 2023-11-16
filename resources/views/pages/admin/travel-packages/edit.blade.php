@@ -39,8 +39,10 @@
                             <div class="form-group">
                                 <label for="duration">Duration</label>
                                 <input type="text"
-                                    class="form-control @if ($errors->has('duration')) is-invalid @endif" name="duration"
-                                    id="duration" value="{{ old('duration', $package->duration) }}" required>
+                                    class="form-control
+                                    @if ($errors->has('duration')) is-invalid @endif"
+                                    name="duration" id="duration" value="{{ old('duration', $package->duration) }}"
+                                    required>
                                 @if ($errors->has('duration'))
                                     <div class="invalid-feedback">
                                         Invalid Duration Input
@@ -49,7 +51,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="about">About</label>
-                                <textarea name="about" class="form-control @if ($errors->has('about')) is-invalid @endif" id="about">{{ old('about', $package->about) }}</textarea>
+                                <textarea name="about"
+                                    class="form-control
+                                    @if ($errors->has('about')) is-invalid @endif"
+                                    id="about">{{ old('about', $package->about) }}</textarea>
                                 <div class="invalid-feedback">
                                     Oh no! You entered an inappropriate word.
                                 </div>
