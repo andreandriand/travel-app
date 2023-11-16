@@ -8,6 +8,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TravelPackageController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -67,3 +68,11 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
     return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+// Midtrans
+
+Route::post('midtrans/callback', [MidtransController::class, 'notificationHandler'])->name('midtrans.callback');
+Route::get('midtrans/finish', [MidtransController::class, 'finishRedirect'])->name('midtrans.finish');
+Route::get('midtrans/unfinish', [MidtransController::class, 'unfinishRedirect'])->name('midtrans.unfinish');
+Route::get('midtrans/error', [MidtransController::class, 'errorRedirect'])->name('midtrans.error');

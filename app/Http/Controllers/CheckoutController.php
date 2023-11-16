@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use App\Mail\TransactionSuccess;
 use Illuminate\Support\Facades\Mail;
 
+use Midtrans\Config;
+use Midtrans\Snap;
+
 class CheckoutController extends Controller
 {
     /**
@@ -93,11 +96,44 @@ class CheckoutController extends Controller
 
         $transaction->save();
 
-        // return $transaction;
+        // Midtrans Configuration
 
-        Mail::to($transaction->user)->send(new TransactionSuccess($transaction));
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = config('midtrans.isSanitized');
+        Config::$is3ds = config('midtrans.is3ds');
 
-        return view('pages.frontend.success');
+        // Midtrans Transaction
+
+        $midtrans_params = [
+            'transaction_details' => [
+                'order_id' => 'TRAVEL-' . $transaction->id,
+                'gross_amount' => (int) $transaction->transaction_total
+            ],
+            'customer_details' => [
+                'first_name' => $transaction->user->name,
+                'email' => $transaction->user->email
+            ],
+            'enabled_payments' => [
+                'gopay', 'bank_transfer'
+            ],
+            'vtweb' => []
+        ];
+
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = Snap::createTransaction($midtrans_params)->redirect_url;
+
+            // Redirect to Snap Payment Page
+            header('Location:' . $paymentUrl);
+            exit();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        // Mail::to($transaction->user)->send(new TransactionSuccess($transaction));
+
+        // return view('pages.frontend.success');
     }
 
     /**

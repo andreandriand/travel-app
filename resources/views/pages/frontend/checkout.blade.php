@@ -165,37 +165,9 @@
                             <hr />
                             <h2>Payment Instructions</h2>
                             <p class="payment-instructions">
-                                Please complete your payment before to continue the wonderful
-                                trip
+                                You will be redirected to another page to pay using QRIS powered by Gopay.
                             </p>
-                            <div class="bank">
-                                <div class="bank-item pb-3">
-                                    <img src="{{ asset('assets/frontend/images/ic_bank.png') }}" alt=""
-                                        class="bank-image" />
-                                    <div class="description">
-                                        <h3>PT LaraVel ID</h3>
-                                        <p>
-                                            0881 8829 8800
-                                            <br />
-                                            Bank Central Asia
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="bank-item">
-                                    <img src="{{ asset('assets/frontend/images/ic_bank.png') }}" alt=""
-                                        class="bank-image" />
-                                    <div class="description">
-                                        <h3>PT LaraVel ID</h3>
-                                        <p>
-                                            0899 8501 7888
-                                            <br />
-                                            Bank HSBC
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
+                            <img src="{{ asset('assets/frontend/images/gopay.png') }}" class="w-50" />
                         </div>
                         <div class="join-container">
                             <a href="{{ route('checkout.success', $transactions->id) }}"
